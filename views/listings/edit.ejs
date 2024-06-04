@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderrsto</title>
-</head>
+<% layout("/layouts/boilerplate") %>
 <body>
     <h2>Edit the listing</h2>
     <form action="/listings/<%= listing._id %>?_method=put" method="post" >
@@ -18,4 +12,3 @@
         <button>Edit</button>
     </form>
 </body>
-</html>
