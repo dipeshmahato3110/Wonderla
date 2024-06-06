@@ -29,7 +29,7 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.get("/", (req,res) => {
-    res.send("Hi, Welcome to Diesh's root !");
+    res.send("Hi, Welcome to Dipesh's root !");
 });
 
 // // Index Route
