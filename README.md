@@ -1,4 +1,6 @@
 **This project server in local host 8080 port.
+          localhost:8080/listings
+
 
 Phase 1 (part a)
 ------------------------------
@@ -16,6 +18,15 @@ Phase 1 (part a)
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 Phase 1 (Part b)
+-------------------------------------
  
 - EJS-Mate
-- Boilerplate
+- Creat Boilerplate
+- Creat Navbar
+- Creat Footer
+- Styling the Index Page
+_ Styling the New Listing Page
+- Styling Edit Listing
+- Styling Show Listing
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
