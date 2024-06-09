@@ -3,14 +3,18 @@
         <div class="col-8 offset-2">
             <br>
             <h2>Edit the listing</h2>
-            <form action="/listings/<%= listing._id %>?_method=put" method="post">
+            <form action="/listings/<%= listing._id %>?_method=put"
+                method="post" 
+                novalidate 
+                class="needs-validation">
                 <div class="mb-3">
                     <label for="title" class="form-lable">Title</label>
                     <input 
                     name="listing[title]" 
                     value="<%=listing.title %>" 
                     type="text" 
-                    class="form-control">
+                    class="form-control" required>
+                    
                 </div>
 
                 <div class="mb-3">
@@ -18,7 +22,7 @@
                     <textarea 
                     name="listing[description]" 
                     type="text" 
-                    class="form-control"><%=listing.title  %>
+                    class="form-control" required><%=listing.title  %>
                     </textarea>
                 </div>
 
@@ -28,7 +32,8 @@
                     name="listing[image]" 
                     value="<%=listing.image %>" 
                     type="text" 
-                    class="form-control">
+                    class="form-control" required>
+                    
                 </div>
 
                 <div class="row">
@@ -38,7 +43,9 @@
                         name="listing[price]" 
                         value="<%=listing.price %>" 
                         type="number" 
-                        class="form-control">
+                        class="form-control"
+                        required>
+                        
                     </div>
     
                     <div class="mb-3 col-md-8">
@@ -47,7 +54,9 @@
                         name="listing[country]" 
                         value="<%=listing.country %>" 
                         type="text" 
-                        class="form-control">
+                        class="form-control"
+                        required>
+
                     </div>
                 </div>
                 
@@ -57,10 +66,12 @@
                     name="listing[location]" 
                     value="<%=listing.location %>" 
                     type="text" 
-                    class="form-control">
+                    class="form-control"
+                    required>
                 </div>
 
                 <button class="btn btn-dark edit-btn mb-3">Edit</button>
             </form>
         </div>
     </div>
+    <script src="/js/script.js"></script>

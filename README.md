@@ -32,3 +32,15 @@ _ Styling the New Listing Page
 - Styling Show Listing
 
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Phase 1 (Part c)
+---------------------------------------------------------------------------
+
+- Client-Side validation(form)
+- Success & Failure text (valid and invalid)
+- Custom Error Handling (Backens-Side)
+- Add wrapAsync
+- Add ExpressError
+- Create error.ejs
+- Validation for Schema (for Server-side Schema)
+- Validation for Schema (middleware)
