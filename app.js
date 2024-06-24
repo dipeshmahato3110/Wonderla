@@ -11,8 +11,11 @@ const ejsMate = require("ejs-mate");
 const wrapAsyns = require("./Extra-things/wrapAsyns.js");
 // Require ExpressError
 const ExpressError = require("./Extra-things/ExpressError.js");
-// Rewuire joi
-const {listingSchema} = require("./schema.js");
+// Require joi schema
+const {listingSchema, reviewSchema} = require("./schema.js");
+// Require Review  modle
+const Review = require("./models/review.js");
+
 
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderrsto";
@@ -39,16 +42,27 @@ app.get("/", (req,res) => {
     res.send("Hi, Welcome to Dipesh's root !");
 });
 
-// Validation for schema error middleware
+// Validation for LISTINGS schema error middleware
 const validateListing = (req,res,next) =>{
     let {error} = listingSchema.validate(req.body);
-    console.log(result);
+    
     if(error){
         throw new ExpressError(400,error);
     } else{
         next();
     }
-}
+};
+
+// Validation for REVIEW schema error middleware
+const validateReview = (req,res,next) =>{
+    let {error} = reviewSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400,error);
+
+    } else{
+        next();
+    }
+};
 
 // // Index Route
 app.get("/listings", wrapAsyns( async (req,res,next) =>{
@@ -97,6 +111,19 @@ app.delete("/listings/:id", wrapAsyns( async (req,res,next) =>{
     const deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     res.redirect("/listings");
+}));
+
+// Review Route [POST Route]
+app.post("/listings/:id/reviews", validateReview, wrapAsyns(async(req,res)=>{
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+
+    console.log("new review saved");
+    res.send("new review saved");
 }));
 
 // app.get("/testListing", async (req,res) =>{

@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const review = require("./review");
+const { ref } = require("joi");
 const Schema = mongoose.Schema;
 
 const listenSchema = new Schema({
@@ -26,6 +28,14 @@ const listenSchema = new Schema({
     country :{
         type : String,
     },
+
+    // One to many case here, Review the listing by there objectId
+    reviews:[
+        {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"Review",
+        },
+    ],
 });
 
 const Listing = mongoose.model("Listing", listenSchema);
