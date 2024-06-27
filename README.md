@@ -44,3 +44,14 @@ Phase 1 (Part c)
 - Create error.ejs
 - Validation for Schema (for Server-side Schema)
 - Validation for Schema (middleware)
+
+
+Phase 2 (Part A)
+---------------------------------------------------------------------------
+
+- Creating Review Model
+- Validation for Reviews
+- Render Reviews
+- Styling Reviews
+- Delete Reviews
+- Handling : Delete Listing (Using Mongoose Middlewares of Handling Deletion)

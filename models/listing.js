@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const review = require("./review");
+const Review = require("./review.js");
 const { ref } = require("joi");
+const { listingSchema } = require("../schema.js");
 const Schema = mongoose.Schema;
 
 const listenSchema = new Schema({
@@ -36,6 +37,13 @@ const listenSchema = new Schema({
         ref:"Review",
         },
     ],
+});
+
+// Mongoose Middleware for Delete listing for Handling Deletion of reviews
+listenSchema.post("findOneAndDelete", async(Listing)=>{
+    if(Listing){
+        await Review.deleteMany({_id: {$in: listingSchema.review}});
+    }
 });
 
 const Listing = mongoose.model("Listing", listenSchema);

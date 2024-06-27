@@ -78,7 +78,8 @@ app.get("/listings/new",(req,res,next) =>{
 // // Show Route
 app.get("/listings/:id", wrapAsyns( async (req,res,next) =>{
     let {id} = req.params;
-    const listing = await Listing.findById(id);
+    // [.populate("reviews") use for render review]
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("./listings/show.ejs", {listing});
 }));
 
@@ -123,7 +124,18 @@ app.post("/listings/:id/reviews", validateReview, wrapAsyns(async(req,res)=>{
     await listing.save();
 
     console.log("new review saved");
-    res.send("new review saved");
+     res.redirect(`/listings/${listing._id}`);
+}));
+
+// Review Route [Delete Route]
+app.delete("/listings/:id/reviews/:reviewId", 
+    wrapAsyns(async( req,res)=>{
+    let {id, reviewId}= req.params;
+
+    await Listing.findByIdAndUpdate(id, {$pull: {reviews:reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/listings/${id}`);
 }));
 
 // app.get("/testListing", async (req,res) =>{
