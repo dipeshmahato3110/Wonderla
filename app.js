@@ -1,20 +1,15 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
 const path = require("path");
 // require method override
 const methodOverride = require("method-override");
 // require ejs-mate
 const ejsMate = require("ejs-mate");
-// Require wrapAsyns
-const wrapAsyns = require("./Extra-things/wrapAsyns.js");
-// Require ExpressError
-const ExpressError = require("./Extra-things/ExpressError.js");
-// Require joi schema
-const {listingSchema, reviewSchema} = require("./schema.js");
-// Require Review  modle
-const Review = require("./models/review.js");
+
+
+const listings = require("./routes/listing.js");
+const reviews = require("./routes/review.js");
 
 
 
@@ -42,115 +37,9 @@ app.get("/", (req,res) => {
     res.send("Hi, Welcome to Dipesh's root !");
 });
 
-// Validation for LISTINGS schema error middleware
-const validateListing = (req,res,next) =>{
-    let {error} = listingSchema.validate(req.body);
-    
-    if(error){
-        throw new ExpressError(400,error);
-    } else{
-        next();
-    }
-};
+app.use("/listings", listings);
+app.use("/listings/:id/reviews", reviews);
 
-// Validation for REVIEW schema error middleware
-const validateReview = (req,res,next) =>{
-    let {error} = reviewSchema.validate(req.body);
-    if(error){
-        throw new ExpressError(400,error);
-
-    } else{
-        next();
-    }
-};
-
-// // Index Route
-app.get("/listings", wrapAsyns( async (req,res,next) =>{
-   const allListing = await Listing.find({});
-   res.render("./listings/index.ejs", {allListing});
-}));
-
-// // New Route
-app.get("/listings/new",(req,res,next) =>{
-    res.render("./listings/new.ejs");
-});
-
-// // Show Route
-app.get("/listings/:id", wrapAsyns( async (req,res,next) =>{
-    let {id} = req.params;
-    // [.populate("reviews") use for render review]
-    const listing = await Listing.findById(id).populate("reviews");
-    res.render("./listings/show.ejs", {listing});
-}));
-
-// //Create Route
-app.post("/listings", validateListing, wrapAsyns( async (req,res,next) =>{
-    // let {title, description, image, price, location, country} = req.body;
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-   
-}));
-
-// // Edit Route
-app.get("/listings/:id/edit", wrapAsyns( async (req,res,next) =>{
-    let {id} = req.params;
-    const listing = await Listing.findById(id);
-    res.render("./listings/edit.ejs", {listing});
-}));
-
-// // Update Route
-app.put("/listings/:id", validateListing, wrapAsyns( async (req,res,next) =>{
-    let {id} = req.params;
-    await Listing.findByIdAndUpdate(id, {...req.body.listing});
-    res.redirect(`/listings/${id}`);
-}));
-
-// // Delete Route
-app.delete("/listings/:id", wrapAsyns( async (req,res,next) =>{
-    let {id} = req.params;
-    const deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
-    res.redirect("/listings");
-}));
-
-// Review Route [POST Route]
-app.post("/listings/:id/reviews", validateReview, wrapAsyns(async(req,res)=>{
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-
-    listing.reviews.push(newReview);
-    await newReview.save();
-    await listing.save();
-
-    console.log("new review saved");
-     res.redirect(`/listings/${listing._id}`);
-}));
-
-// Review Route [Delete Route]
-app.delete("/listings/:id/reviews/:reviewId", 
-    wrapAsyns(async( req,res)=>{
-    let {id, reviewId}= req.params;
-
-    await Listing.findByIdAndUpdate(id, {$pull: {reviews:reviewId}});
-    await Review.findByIdAndDelete(reviewId);
-
-    res.redirect(`/listings/${id}`);
-}));
-
-// app.get("/testListing", async (req,res) =>{
-//     let sampleListing = new Listing({
-//         title : "My new house 2",
-//         description : "by the beach",
-//         price : 12000,
-//         location : "Goa",
-//         country : "India"
-//     })
-
-//    await sampleListing.save();
-//    console.log("Sample was saved");
-//    res.send("Successful testing");
-// });
 
 // If the user go to the wrong route
 app.all("*",(req,res,next) =>{
