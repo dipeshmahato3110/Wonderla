@@ -55,3 +55,13 @@ Phase 2 (Part A)
 - Styling Reviews
 - Delete Reviews
 - Handling : Delete Listing (Using Mongoose Middlewares of Handling Deletion)
+
+
+Phase 2 (Part B)
+---------------------------------------------------------------------------
+
+-Express Router
+  -Restructuring Listings
+  -Restructuring Reviews
+-Web Cookies
+ -
