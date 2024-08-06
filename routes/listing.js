@@ -40,6 +40,7 @@ router.get("/", wrapAsyns( async (req,res,next) =>{
      // let {title, description, image, price, location, country} = req.body;
      const newListing = new Listing(req.body.listing);
      await newListing.save();
+     req.flash("succes", "New listing created !");
      res.redirect("/listings");
     
  }));
