@@ -41,7 +41,7 @@ const sessionOptions = {
     cookie:{
         expires: Date.now() +1000*60*60*24*3,
         maxAge: 1000*60*60*24*3,
-        httpOnly: true
+        httpOnly: true,
     },
 };
 
@@ -54,11 +54,7 @@ app.use(flash());
 
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
-<<<<<<< HEAD
     next();
-=======
-    res.locals.error = req.flash("error");
->>>>>>> 79b65f2fc8a437f8fe110faba459cb5ddc43559e
 });
 
 app.use("/listings", listings);

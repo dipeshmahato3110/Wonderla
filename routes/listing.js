@@ -44,12 +44,10 @@ router.get("/", wrapAsyns( async (req,res,next) =>{
      // let {title, description, image, price, location, country} = req.body;
      const newListing = new Listing(req.body.listing);
      await newListing.save();
-<<<<<<< HEAD
-     req.flash("succes", "New listing created !");
-=======
+
+
     //  flash
      req.flash("success", "New listing created !");
->>>>>>> 79b65f2fc8a437f8fe110faba459cb5ddc43559e
      res.redirect("/listings");
     
  }));
